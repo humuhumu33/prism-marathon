@@ -1,18 +1,22 @@
 {
-  "name": "Template contract",
-  "shortName": "Contract",
-  "live": "https://uor-foundation.github.io/template/",
-  "purpose": "Checks each universal policy file of a UOR template repository against its locked digest. Send the six expected and observed digests; it answers conformant, or names every file that drifted, and invalid request for anything else.",
-  "inputLabel": "Expected and observed digests",
-  "placeholder": "hex: followed by 384 bytes",
-  "submitLabel": "Check",
-  "outputLabel": "Verdict",
+  "name": "Marathon",
+  "shortName": "Marathon",
+  "live": "https://humuhumu33.github.io/prism-marathon/",
+  "purpose": "Decide what training session a marathon runner should do today, from weeks to race, body signals and recent training. Send weeks, pain, sleep, streak, longrun, hard or feel, separated by spaces; it answers doctor, rest, easy, long, tempo or taper, and invalid request for anything else.",
+  "inputLabel": "Request: weeks pain sleep streak longrun hard feel",
+  "placeholder": "16 0 8 2 7 3 fresh",
+  "submitLabel": "Decide",
+  "outputLabel": "Answer",
   "answers": {
     "positive": [
-      "conformant"
+      "doctor"
     ],
     "negative": [
-      "drift:*"
+      "rest",
+      "easy",
+      "long",
+      "tempo",
+      "taper"
     ],
     "refusal": "invalid request"
   },
@@ -20,25 +24,102 @@
     "headline": "Says conformant exactly when every policy file matches its lock.",
     "detail": "Each of the six universal policy files is compared with the digest the lock records, and any file that drifted is named."
   },
-  "claim": "TC-01: the checker answers conformant exactly when every universal policy file's observed digest equals its locked digest.",
+  "claim": "MA-01: the app always answers doctor when pain is at least 7. MA-02: the app never answers tempo when pain is at least 4. MA-03: the app never answers long when pain is at least 4. MA-04: the app always answers rest when feel is sick and pain is below 7. MA-05: the app always answers rest when streak is at least 6 and pain is below 7. MA-06: the app never answers long when weeks is at most 2. MA-07: the app never answers tempo when weeks is at most 2. MA-08: the app never answers long when sleep is below 5.",
   "proposition": {
-    "name": "Conformant",
-    "text": "Conformant observation :=\n  SameDigest devcontainer.expected devcontainer.observed\n  /\\ SameDigest bootstrap.expected bootstrap.observed\n  /\\ SameDigest agents.expected agents.observed\n  /\\ SameDigest verification.expected verification.observed\n  /\\ SameDigest prismpmLock.expected prismpmLock.observed\n  /\\ SameDigest templateContract.expected templateContract.observed\n\nSameDigest left right :=\n  left.w0 = right.w0 /\\ left.w1 = right.w1 /\\ left.w2 = right.w2 /\\ left.w3 = right.w3",
-    "plain": "Every one of the six universal policy files has the digest the lock says it has."
+    "name": "judge",
+    "text": "judge request :=\n  pain is at least 7 → doctor\n  feel is sick → rest\n  pain is at least 4 → rest\n  streak is at least 6 → rest\n  sleep is below 5 → easy\n  feel is tired → easy\n  weeks is at most 2 → taper\n  longrun is at least 7 → long\n  hard is at least 3 → tempo\n  otherwise → easy",
+    "plain": "Decide what training session a marathon runner should do today, from weeks to race, body signals and recent training."
   },
   "theorems": [
     {
-      "name": "conformant_decides",
-      "statement": "conformant observation = true ↔ Conformant observation, for every observation",
-      "how": "Proved by simplification over the record fields, checked by the Lean kernel by prismpm verify in CI",
-      "where": "app/src/Contract.lex.tex"
+      "name": "inv001Holds",
+      "statement": "no request meets breaksInv001: the app always answers doctor when pain is at least 7",
+      "how": "Proved by linear arithmetic, checked by the Lean kernel on the UOR MCP server and again by prismpm verify in CI",
+      "where": "app/src/MarathonProofs.lex.tex"
+    },
+    {
+      "name": "inv002Holds",
+      "statement": "no request meets breaksInv002: the app never answers tempo when pain is at least 4",
+      "how": "Proved by linear arithmetic, checked by the Lean kernel on the UOR MCP server and again by prismpm verify in CI",
+      "where": "app/src/MarathonProofs.lex.tex"
+    },
+    {
+      "name": "inv003Holds",
+      "statement": "no request meets breaksInv003: the app never answers long when pain is at least 4",
+      "how": "Proved by linear arithmetic, checked by the Lean kernel on the UOR MCP server and again by prismpm verify in CI",
+      "where": "app/src/MarathonProofs.lex.tex"
+    },
+    {
+      "name": "inv004Holds",
+      "statement": "no request meets breaksInv004: the app always answers rest when feel is sick and pain is below 7",
+      "how": "Proved by linear arithmetic, checked by the Lean kernel on the UOR MCP server and again by prismpm verify in CI",
+      "where": "app/src/MarathonProofs.lex.tex"
+    },
+    {
+      "name": "inv005Holds",
+      "statement": "no request meets breaksInv005: the app always answers rest when streak is at least 6 and pain is below 7",
+      "how": "Proved by linear arithmetic, checked by the Lean kernel on the UOR MCP server and again by prismpm verify in CI",
+      "where": "app/src/MarathonProofs.lex.tex"
+    },
+    {
+      "name": "inv006Holds",
+      "statement": "no request meets breaksInv006: the app never answers long when weeks is at most 2",
+      "how": "Proved by linear arithmetic, checked by the Lean kernel on the UOR MCP server and again by prismpm verify in CI",
+      "where": "app/src/MarathonProofs.lex.tex"
+    },
+    {
+      "name": "inv007Holds",
+      "statement": "no request meets breaksInv007: the app never answers tempo when weeks is at most 2",
+      "how": "Proved by linear arithmetic, checked by the Lean kernel on the UOR MCP server and again by prismpm verify in CI",
+      "where": "app/src/MarathonProofs.lex.tex"
+    },
+    {
+      "name": "inv008Holds",
+      "statement": "no request meets breaksInv008: the app never answers long when sleep is below 5",
+      "how": "Proved by linear arithmetic, checked by the Lean kernel on the UOR MCP server and again by prismpm verify in CI",
+      "where": "app/src/MarathonProofs.lex.tex"
     }
   ],
   "pinned": [
     {
-      "name": "contract_tc_01",
-      "what": "The theorem's statement and axioms, the six files the proposition names against template-contract.json, that a drifted file is named in the verdict, and that the verdict is decided by conformant. A string-matching test, not a theorem: a planted defect fails it.",
-      "where": "crates/conformance/tests/contract.rs"
+      "name": "marathon_ma_01",
+      "what": "MA-01's condition and the theorem that no request meets it. A string-matching test, not a theorem: a planted defect fails it.",
+      "where": "crates/conformance/tests/marathon.rs"
+    },
+    {
+      "name": "marathon_ma_02",
+      "what": "MA-02's condition and the theorem that no request meets it. A string-matching test, not a theorem: a planted defect fails it.",
+      "where": "crates/conformance/tests/marathon.rs"
+    },
+    {
+      "name": "marathon_ma_03",
+      "what": "MA-03's condition and the theorem that no request meets it. A string-matching test, not a theorem: a planted defect fails it.",
+      "where": "crates/conformance/tests/marathon.rs"
+    },
+    {
+      "name": "marathon_ma_04",
+      "what": "MA-04's condition and the theorem that no request meets it. A string-matching test, not a theorem: a planted defect fails it.",
+      "where": "crates/conformance/tests/marathon.rs"
+    },
+    {
+      "name": "marathon_ma_05",
+      "what": "MA-05's condition and the theorem that no request meets it. A string-matching test, not a theorem: a planted defect fails it.",
+      "where": "crates/conformance/tests/marathon.rs"
+    },
+    {
+      "name": "marathon_ma_06",
+      "what": "MA-06's condition and the theorem that no request meets it. A string-matching test, not a theorem: a planted defect fails it.",
+      "where": "crates/conformance/tests/marathon.rs"
+    },
+    {
+      "name": "marathon_ma_07",
+      "what": "MA-07's condition and the theorem that no request meets it. A string-matching test, not a theorem: a planted defect fails it.",
+      "where": "crates/conformance/tests/marathon.rs"
+    },
+    {
+      "name": "marathon_ma_08",
+      "what": "MA-08's condition and the theorem that no request meets it. A string-matching test, not a theorem: a planted defect fails it.",
+      "where": "crates/conformance/tests/marathon.rs"
     }
   ],
   "trusted": [
@@ -65,14 +146,14 @@
   ],
   "attestations": {
     "proof": {
-      "id": "not recorded for the template's own app; an instance records the UOR MCP server's attestation here",
-      "url": "https://github.com/UOR-Foundation/template/actions/workflows/bootstrap.yml"
+      "id": "b5a4595645d058cdaa0c06e854f73b31363039aec07749a4f09c175cc2faccef",
+      "url": "https://github.com/humuhumu33/prism-marathon/actions/workflows/bootstrap.yml"
     },
     "build": {
-      "id": "printed by prismpm verify in every pages run; an instance records it here",
-      "url": "https://github.com/UOR-Foundation/template/actions/workflows/pages.yml"
+      "id": "printed by prismpm verify in every pages run",
+      "url": "https://github.com/humuhumu33/prism-marathon/actions/workflows/pages.yml"
     }
   },
-  "repository": "https://github.com/UOR-Foundation/template",
-  "report": "https://github.com/UOR-Foundation/template/blob/main/TEMPLATE-VERIFICATION.md"
+  "repository": "https://github.com/humuhumu33/prism-marathon",
+  "report": "https://github.com/humuhumu33/prism-marathon/blob/main/TEMPLATE-VERIFICATION.md"
 }

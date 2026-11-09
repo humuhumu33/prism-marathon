@@ -1,6 +1,6 @@
-name = "PrismTemplateContract"
+name = "PrismMarathon"
 version = "0.1.0"
-defaultTargets = ["PrismTemplateContract"]
+defaultTargets = ["PrismMarathon"]
 
 [[lean_lib]]
-name = "PrismTemplateContract"
+name = "PrismMarathon"

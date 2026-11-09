@@ -18,11 +18,18 @@ The three honesty levels (R2):
 `cargo xtask audit-limits` fails if any code path returns an error the
 model does not sanction.
 
-## contract
+## marathon
 
 | ID | Level | Statement |
 | --- | --- | --- |
-| `TC-01` | `build` | The checker answers conformant exactly when every universal policy file's observed digest equals its locked digest |
+| `MA-01` | `build` | The app always answers doctor when pain is at least 7 |
+| `MA-02` | `build` | The app never answers tempo when pain is at least 4 |
+| `MA-03` | `build` | The app never answers long when pain is at least 4 |
+| `MA-04` | `build` | The app always answers rest when feel is sick and pain is below 7 |
+| `MA-05` | `build` | The app always answers rest when streak is at least 6 and pain is below 7 |
+| `MA-06` | `build` | The app never answers long when weeks is at most 2 |
+| `MA-07` | `build` | The app never answers tempo when weeks is at most 2 |
+| `MA-08` | `build` | The app never answers long when sleep is below 5 |
 
 ## Cited authorities
 

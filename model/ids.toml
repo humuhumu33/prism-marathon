@@ -22,7 +22,49 @@
 spec = "template/1"
 
 [[id]]
-id = "TC-01"
+id = "MA-01"
 level = "build"
-suite = "contract"
-statement = "The checker answers conformant exactly when every universal policy file's observed digest equals its locked digest"
+suite = "marathon"
+statement = "The app always answers doctor when pain is at least 7"
+
+[[id]]
+id = "MA-02"
+level = "build"
+suite = "marathon"
+statement = "The app never answers tempo when pain is at least 4"
+
+[[id]]
+id = "MA-03"
+level = "build"
+suite = "marathon"
+statement = "The app never answers long when pain is at least 4"
+
+[[id]]
+id = "MA-04"
+level = "build"
+suite = "marathon"
+statement = "The app always answers rest when feel is sick and pain is below 7"
+
+[[id]]
+id = "MA-05"
+level = "build"
+suite = "marathon"
+statement = "The app always answers rest when streak is at least 6 and pain is below 7"
+
+[[id]]
+id = "MA-06"
+level = "build"
+suite = "marathon"
+statement = "The app never answers long when weeks is at most 2"
+
+[[id]]
+id = "MA-07"
+level = "build"
+suite = "marathon"
+statement = "The app never answers tempo when weeks is at most 2"
+
+[[id]]
+id = "MA-08"
+level = "build"
+suite = "marathon"
+statement = "The app never answers long when sleep is below 5"
